@@ -1,16 +1,67 @@
-<!-- SignUpForm.html -->
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html>
+
 <head>
-  <base target="_top">
-  <title>報名表單</title>
+  <meta charset="UTF-8">
+  <title>報名系統</title>
+
   <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 50px; /* 調整字型大小 */
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+    }
+
     label {
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      font-size: 40px; /* 調整字型大小 */
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      font-size: 30px; /* 調整字型大小 */
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 20px; /* 調整字型大小 */
+    }
+
+    button:hover {
+      background-color: #45a049;
     }
   </style>
+
 </head>
+
 <body>
   <h2>報名表單</h2>
   <form id="signupForm">
@@ -20,21 +71,29 @@
     <label for="count">人數：</label>
     <input type="number" id="count" name="count" required><br>
 
-    <label for="remark">備註：</label>
-    <textarea id="remark" name="remark"></textarea><br>
+    <label for="remarks">備註：</label>
+    <input type="text" id="remarks" name="remarks"><br>
 
-    <input type="button" value="確認報名" onclick="submitForm()">
+    <button type="button" onclick="submitForm()">確認</button>
   </form>
 
   <script>
     function submitForm() {
       var name = document.getElementById('name').value;
       var count = document.getElementById('count').value;
-      var remark = document.getElementById('remark').value;
+      var remarks = document.getElementById('remarks').value;
 
-      google.script.run.doPost({ name: name, count: count, remark: remark });
-      document.getElementById('signupForm').innerHTML = '<p>報名成功！</p>';
+      // 將報名資訊發送到 Google Apps Script
+      google.script.run.doPost({
+        name: name,
+        count: count,
+        remarks: remarks
+      });
+
+      // 提示報名成功
+      alert('報名成功！');
     }
   </script>
 </body>
+
 </html>
