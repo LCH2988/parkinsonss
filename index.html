@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+   
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  
+ 
+ </head> 
+ 
+<body>
+  <!-- Page Content -->
+  <div class="container">
+    <div>
+      <div>
+        <div>
+            <h5 id=show></h5>
+            <p id=show1></p>
+        </div>
+        <div>
+          <h5 id="show2"><h/5>
+        </div>  
+        <div >
+        <label for="pwd">數量 :</label>
+        <input type="number" id="phone">
+        <p>
+        <br/>
+        <label for="pwd">訂購人:</label>
+        <input type="text" id="name">
+        </p>
+        </div>
+        
+        <div class="form-group col-xs-5">
+          <button type="button" id="sendOrder" class="btn btn-primary col-xs-12">送出訂單</button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    var show = $('#show');
+    var show1 = $('#show1');
+    var show2 = $('#show2');
+        var a1="2";
+        var a2="2";
+        var b1="6";
+        var b2="2";
+        var c1="6";
+        var c2="3";
+        var d1="6";
+        var d2="4";
+        var e1="2";
+        var e2="7";
+    var parameter1 = {};
+    var appUrl = 'https://script.google.com/macros/s/AKfycbwN8bEV-m01RZRVSpk1DwF5pRgATfiGNzidC9AQ5AkT9FRfUJjn/exec';
+    
+  $(function doGetb() {
+     parameter1 = {
+                  url:'https://docs.google.com/spreadsheets/d/1e-Pb5eExJEOMnDTHvhbgfI-Q__S72cuoVJGTPlHobcE/edit#gid=229851218',  
+                  name:'sheet2',
+                  startRow: 2,
+                  startColumn: 2,
+                  };
+                  //專案01=2,2.5.8.11.14  ; 專案06=27,2
+  $.get(appUrl, parameter1, function(data) {
+	  	if(!data){show.text('無資料');}else{show.text(data);}});});
+  
+  $(function doGetb() {
+     parameter1 = {
+                  url:'https://docs.google.com/spreadsheets/d/1e-Pb5eExJEOMnDTHvhbgfI-Q__S72cuoVJGTPlHobcE/edit#gid=229851218',  
+                  name:'sheet2',
+                  startRow: 6,
+                  startColumn: 3,
+                  };
+                  //A01=4,3  ; B02=4,6 ; C01=4,9 ; D01=4,12 ; E01=4,15
+                  //F01=29,3 ;G01=29,6 ;G01=29,9 ;G01=29,12 ;G01=29,15
+  $.get(appUrl, parameter1, function(data) {
+	  	if(!data){show1.text('無資料');}else{show1.text(data);}});});
+  
+  $(function doGetb() {
+     parameter1 = {
+                  url:'https://docs.google.com/spreadsheets/d/1e-Pb5eExJEOMnDTHvhbgfI-Q__S72cuoVJGTPlHobcE/edit#gid=229851218',  
+                  name:'sheet2',
+                  startRow: 6,
+                  startColumn: 4,
+                  };
+                  //A01=4,4  ; B02=4,7 ; C01=4,10 ; D01=4,13 ; E01=4,16
+                  //F01=29,4 ;G01=29,7 ;G01=29,10 ;G01=29,13 ;G01=29,16
+  $.get(appUrl, parameter1, function(data) {
+	  	if(!data){show2.text('無資料');}else{show2.text(data);}});});
+  
+
+    $(function(){
+        // 監聽 送出訂單 按鈕點擊
+        // 下面這段主要在組合資料，還有擋使用者不填資料不能送出
+        $('#sendOrder').click(function(e){
+        var status = true;
+        // 姓名
+        var name = $('#name').val();
+        // 電話
+        var phone = $('#phone').val();
+        
+          
+        // 訂單  後面再加上選項數量*價格
+        var order = '';
+        // 價格 先預設0 後面再加上
+        var price = 0;
+        $('input').focus(function(){
+          $(this).css('border','');
+        });
+        // 處理價格 跟 訂單 資料
+        $('.select').each(function(index) {
+          if($(this).val() !== ''){
+            order += $(this).data('name') + ' - ' + $(this).val() + '份 \n';
+            price += Number($(this).data('price')) * Number($(this).val());
+          }
+        });
+        order = order.substring(0, order.length - 1);
+
+        // 擋住不填資料邏輯
+        if(name == ''){
+          $('#name').css('border','1px solid #ff0000');
+          status = false;
+        }
+        
+        // 如果 �必填欄位都過了 才會到這邊
+        if(status){
+          // 增加日期資料
+          var currentdate = new Date();
+          var filltime = currentdate.getFullYear() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getDate() + "  "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+          // 打包 要的資料
+          var data = {
+            'name' : name,
+            'phone':phone,
+            'time': filltime,
+            'a1':a1,
+            'a2':a2,
+            'b1':b1,
+            'b2':b2,
+            'c1':c1,
+            'c2':c2,
+            'd1':d1,
+            'd2':d2,
+            'e1':e1,
+            'e2':e2,
+                        
+            }
+          // 呼叫 send ajax function
+          send(data);
+        }
+      });
+    });
+    function send(data){
+      $.ajax({
+        // 這邊用get type
+        type: "get",
+        // api url - google appscript 產出的 url
+        url: "https://script.google.com/macros/s/AKfycbwJDIQsElqUUqDLw8H9fqnLiF3opOnwJBmnXoLqOY2g2ESHrJRF/exec",
+        // 剛剛整理好的資料帶入
+        data: data,
+        // 資料格式是JSON 
+        dataType: "JSON",
+        // 成功送出 會回頭觸發下面這塊感謝
+        success: function (response) {
+          console.log(response);
+          alert('感謝您的訂購！！');
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
