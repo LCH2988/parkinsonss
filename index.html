@@ -1,99 +1,45 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>報名系統</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
+<meta name="viewport" content="width=device-width>, initial-
+scale=1.0">
 
-    h2 {
-      text-align: center;
-      font-size: 50px; /* 調整字型大小 */
-    }
+<title>Display Web</title>
+<style type="text/css">
+html {
+overflow: auto;
+}
 
-    form {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-top: 50px;
-    }
+html,
+body,
+div,
+iframe {
+margin: 0px;
+padding: 0px;
+height: 100%;
+border: none;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 40px; /* 調整字型大小 */
-    }
+iframe {
+display: block;
+width: 100%;
+border: none;
+overflow-y: auto;
+overflow-x: hidden;
+}
 
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 16px;
-      box-sizing: border-box;
-      font-size: 30px; /* 調整字型大小 */
-    }
-
-    button {
-      background-color: #4caf50;
-      color: #fff;
-      padding: 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 20px; /* 調整字型大小 */
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
-
+</style>
 </head>
 
 <body>
-  <h2>報名表單</h2>
-  <form id="signupForm">
-    <label for="name">姓名：</label>
-    <input type="text" id="name" name="name" required><br>
+<iframe src="#" frameborder="0" marginheight="0" marginwidth="0"
+width="100%" height="100%" scrolling="auto">
+</iframe>
 
-    <label for="count">人數：</label>
-    <input type="number" id="count" name="count" required><br>
-
-    <label for="remarks">備註：</label>
-    <input type="text" id="remarks" name="remarks"><br>
-
-    <button type="button" onclick="submitForm()">確認</button>
-  </form>
-
-  <script>
-    function submitForm() {
-      var name = document.getElementById('name').value;
-      var count = document.getElementById('count').value;
-      var remarks = document.getElementById('remarks').value;
-
-      // 將報名資訊發送到 Google Apps Script
-      google.script.run.doPost({
-        name: name,
-        count: count,
-        remarks: remarks
-      });
-
-      // 提示報名成功
-      alert('報名成功！');
-    }
-  </script>
 </body>
 
 </html>
