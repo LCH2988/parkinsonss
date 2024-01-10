@@ -1,0 +1,236 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>報名系統</title>
+
+  <style>
+    form,
+    div,
+    label,
+    input,
+    button,
+    #registrationList,
+    #modifySection {
+      width: 90%;
+      /* 使用百分比 */
+      max-width: 380px;
+      /* 保留最大寬度 */
+      margin: 10px auto;
+      /* 上下居中 */
+      word-wrap: break-word;
+      /* 允許長單詞或 URL 換行 */
+      white-space: normal;
+      /* 設置為 normal 以允許換行 */
+    }
+
+    input {
+      width: 100%;
+      /* 使其充滿父容器的寬度 */
+      max-width: 350px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      /* 使其充滿父容器的寬度 */
+      max-width: 350px;
+      margin: 20px 0;
+      /* 上下邊距為 20px，左右邊距為 0 */
+    }
+
+    #registrationList {
+      padding: 20px;
+      /* 固定 padding 改為相對值 */
+    }
+
+    #modifySection {
+      padding: 20px;
+      /* 固定 padding 改為相對值 */
+    }
+  </style>
+
+
+<body>
+  <h1 id="itemDetails5"></h1>
+  <!-- 顯示 B2 和 H2 的值 -->
+  <h2 id="itemDetails"></h2>
+  <h2 id="itemDetails2"></h2>
+  <h2 id="itemDetails3"></h2>
+
+
+  <form id="signupForm"
+    style="background-color: #f2f2f2; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2>⭕️ 活動報名表</h2>
+    <label for="name" style="font-size: 20px; line-height: 0.1;">⭐️ 姓名 ： (必填)</label>
+    <input type="text" id="name" name="name" required style="color: blue; font-size: 20px; margin-bottom: 10px; font-weight: bold;"><br>
+
+    <label for="count" style="font-size: 20px; line-height: 0.5;">⭐️ 人數 ： (必填)</label>
+    <input type="number" id="count" name="count" required style="color: blue; font-size: 20px; margin-bottom: 10px; font-weight: bold;"><br>
+    
+    <label for="phone" style="font-size: 20px; line-height: 0.5;">⭐️ 電話 ： </label>
+    <label for="phone" style="font-size: 20px; line-height: 0.5;">   (必填，查詢修改報名資料用)</label>
+    <input type="number" id="phone" name="phone" required style="color: blue; font-size: 20px; margin-bottom: 10px; font-weight: bold;"><br>
+
+    <label for="remarks" style="font-size: 20px; line-height: 0.5;">⭐️ 備註：</label>
+    <input type="text" id="remarks" name="remarks" style="color: blue; font-size: 20px; margin-bottom: 10px;"><br>
+    <button type="button" onclick="getValues()" style="font-size: 20px; background-color: green; color: white;">確認</button>
+  </form>
+
+
+  <h2 id="itemDetails4"></h2>
+  <label id="registrationList" style="font-size: 20px;"></label>
+
+  <div id="modifySection"
+    style="background-color: #ffc0cb; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2>⭕️ 修改報名資料</h2>
+    <label for="phone" style="font-size: 20px; line-height: 1.3; display: block; margin-bottom: 5px;">
+  <span style="display: block;">⭐️ 電話 : </span>
+  <span style="display: block; font-size: 20px;">(請輸入報名時的電話號碼)</span>
+    </label>
+
+    <input type="number" id="modifyPhone" name="modifyPhone" required style="font-size: 20px; margin-bottom: 5px;">
+    <button type="button" onclick="getRegistrationData()" style="font-size: 20px; background-color: green; color: white;">查詢</button>
+
+    <h3 id="modifyResult"></h3>
+
+    <label for="modifyName" style="font-size: 20px; color: blue; line-height: 0.5;">⭐️ 修改姓名：(請確認內容)</label>
+    <input type="text" id="modifyName" name="modifyName" style="font-size: 20px; color: #8b0000; margin-bottom: 10px; font-weight: bold;"><br>
+    <label for="modifyCount" style="font-size: 20px; color: blue; line-height: 0.5;">⭐️ 修改人數：(請確認內容)</label>
+    <input type="number" id="modifyCount" name="modifyCount" style="font-size: 20px; color: #8b0000; margin-bottom: 10px; font-weight: bold;"><br>
+    <label for="modifyRemarks" style="font-size: 20px; color: blue; line-height: 0.5;">⭐️ 修改備註：(請確認內容)</label>
+    <input type="text" id="modifyRemarks" name="modifyRemarks" style="font-size: 20px; color: #8b0000; margin-bottom: 10px; font-weight: bold;"><br>
+    <button type="button" onclick="modifyData()" style="font-size: 20px; margin-top: 10px; background-color: green; color: white;">修改</button>
+  </div>
+
+
+
+  <script>
+    function updateItemDetails() {
+      // 使用 Google Apps Script 取得試算表中 B2 和 H2 的值
+      google.script.run.withSuccessHandler(function(result) {
+        // 顯示 B2 和 H2 的值
+        document.getElementById("itemDetails").textContent = '代號:' + result.itemE3;
+      }).getItemDetails();
+      google.script.run.withSuccessHandler(function(result) {
+        // 顯示 B2 和 H2 的值
+        document.getElementById("itemDetails2").textContent = '名稱:' + result.itemF3;
+      }).getItemDetails();
+      google.script.run.withSuccessHandler(function(result) {
+        // 顯示 B2 和 H2 的值
+        document.getElementById("itemDetails3").textContent = '目前報名總人數: ' + result.itemJ3 + " 人";
+      }).getItemDetails();
+      google.script.run.withSuccessHandler(function(result) {
+        // 顯示 B2 和 H2 的值
+        document.getElementById("itemDetails4").textContent = result.itemD2;
+      }).getItemDetails();
+      google.script.run.withSuccessHandler(function(result) {
+        // 顯示 B2 和 H2 的值
+        document.getElementById("itemDetails5").textContent = result.itemD3;
+      }).getItemDetails();
+    }
+
+    // 更新 B2 和 H2 的值
+    updateItemDetails();
+
+     // 顯示報名清單
+    function showRegistrationList(registrations) {
+      var registrationListElement = document.getElementById("registrationList");
+      registrationListElement.innerHTML = ''; // 清空先前的內容
+
+      registrations.forEach(function(registration) {
+        var listItem = document.createElement("li");
+        listItem.textContent = registration.k1 + ' _ ' + registration.name +
+          ' +【共 ' + registration.count +
+          ' 人】_ ' + registration.remarks;
+
+        registrationListElement.appendChild(listItem);
+      });
+    }
+
+    // 取得報名清單
+    function getRegistrationList() {
+      google.script.run.withSuccessHandler(showRegistrationList).getRegistrationList();
+    }
+
+    // 更新報名清單
+    getRegistrationList();
+
+
+
+    function getValues() {
+      var name = document.getElementById('name').value;
+      var count = document.getElementById('count').value;
+      var phone = document.getElementById('phone').value;
+      var remarks = document.getElementById('remarks').value;
+
+      var rowData = {
+        name: name,
+        count: count,
+        phone: phone,
+        remarks: remarks
+      };
+
+            // 顯示確認對話框
+      var isConfirmed = confirm("確定要完成報名嗎？");
+
+      // 使用者點擊確認
+      if (isConfirmed) {
+        // 上傳資料
+        google.script.run.addData(rowData);
+
+        // 清除表單上的資料
+        document.getElementById("signupForm").reset();
+
+        // 更新報名清單
+        getRegistrationList();
+
+      }
+    }
+
+     // 新增查詢報名資料的函數
+ function getRegistrationData() {
+    var phoneToModify = document.getElementById('modifyPhone').value;
+    google.script.run.withSuccessHandler(function (result) {
+      if (result) {
+        // 將查詢結果填入修改表單
+        document.getElementById('modifyName').value = result.name;
+        document.getElementById('modifyCount').value = result.count;
+        document.getElementById('modifyRemarks').value = result.remarks;
+
+        document.getElementById("modifyResult").textContent = `✅ 原報名資料：${result.name} +【共 ${result.count} 人】_ ${result.remarks}`;
+      } else {
+        document.getElementById("modifyResult").textContent = "找不到相應的報名資料。";
+      }
+    }).getRegistrationData(phoneToModify);
+  }
+
+  // 新增修改報名資料的函數
+  function modifyData() {
+    var phoneToModify = document.getElementById('modifyPhone').value;
+    var newName = document.getElementById('modifyName').value;
+    var newCount = document.getElementById('modifyCount').value;
+    var newRemarks = document.getElementById('modifyRemarks').value;
+
+    var isConfirmed = confirm("確定要修改報名資料嗎？");
+    if (isConfirmed) {
+      google.script.run.modifyData({ phone: phoneToModify, name: newName, count: newCount, remarks: newRemarks });
+      document.getElementById("modifyResult").textContent = "報名資料已修改。";
+      // 清空輸入框
+      document.getElementById('modifyPhone').value = '';
+      document.getElementById('modifyName').value = '';
+      document.getElementById('modifyCount').value = '';
+      document.getElementById('modifyRemarks').value = '';
+    }
+  }
+  </script>
+
+</body>
+
+</html>
