@@ -2,7 +2,7 @@
 
 // 連結HTML檔案
 function doGet() {
-  var html = HtmlService.createTemplateFromFile("index6");
+  var html = HtmlService.createTemplateFromFile("index_test");
   var check = html.evaluate();
   var show = check.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   return show;
