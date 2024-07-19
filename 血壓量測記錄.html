@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>血壓量測</title>
-  <style type="text/css">
+    <style type="text/css">
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: hidden;
     }
-
     body {
       height: 100%;
     }
-
     iframe {
       display: block;
       width: 100%;
@@ -28,27 +25,10 @@
     }
   </style>
 </head>
-
 <body>
-  <h1>血壓量測</h1>
-  <iframe id="sheet-frame" src="" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+<iframe src= "https://script.google.com/macros/s/AKfycbz8fZtTkuR1vR2w2iXgqP-Pi8hztE5Mj6YjKuQ3ZBk8LfS-MNVYkhZURNxYUpLKljpP9g/exec" frameborder="0" marginheight="0" marginwidth="0"
+width="100%" height="100%" scrolling="auto">
+</iframe>
 
-  <script>
-    // 從服務端獲取Google試算表數據
-    async function getSheetData() {
-      try {
-        const response = await fetch('http://localhost:3000/get-sheet-data');
-        const data = await response.json();
-        document.getElementById('sheet-frame').src = data.link; // 設置 iframe 的 src 屬性
-      } catch (error) {
-        console.error('Error fetching data from server:', error);
-        document.getElementById('sheet-frame').src = ''; // 清空 iframe 的 src 屬性
-      }
-    }
-
-    // 調用getSheetData函數
-    getSheetData();
-  </script>
 </body>
-
 </html>
